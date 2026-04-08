@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>주식 트래커</title>
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #181818;
+    --surface2: #222;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --muted: #666;
+    --faint: #333;
+    --up: #ef4444;
+    --down: #3b82f6;
+    --flat: #888;
+    --accent: #f0f0f0;
+    --green: #22c55e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; min-height: 100vh; }
+
+  .header {
+    padding: 52px 20px 20px;
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-end; }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+  .last-updated { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .refresh-btn {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); border-radius: 20px; padding: 7px 14px;
+    font-size: 12px; cursor: pointer; font-weight: 500;
+  }
+  .refresh-btn:active { opacity: 0.7; }
+
+  .tabs {
+    display: flex; gap: 8px; padding: 14px 20px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--muted); border-radius: 20px; padding: 6px 14px;
+    font-size: 13px; cursor: pointer; white-space: nowrap; font-weight: 500;
+    transition: all 0.15s;
+  }
+  .tab.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  .cards { padding: 0 16px 40px; }
+
+  .stock-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .stock-card:active { transform: scale(0.985); opacity: 0.9; }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+  .stock-name { font-size: 17px; font-weight: 600; }
+  .stock-ticker { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .stock-price { text-align: right; }
+  .price-val { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; font-variant-numeric: tabular-nums; }
+  .price-currency { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .change-row { display: flex; gap: 8px; }
+  .change-pill {
+    flex: 1; background: var(--surface2); border-radius: 10px;
+    padding: 8px 10px; text-align: center;
+  }
+  .change-label { font-size: 10px; color: var(--muted); margin-bottom: 4px; letter-spacing: 0.03em; }
+  .change-val { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .up { color: var(--up); }
+  .down { color: var(--down); }
+  .flat { color: var(--flat); }
+
+  .market-badge {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    padding: 3px 7px; border-radius: 6px; margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+  .badge-kr { background: #1c2a1c; color: #4ade80; }
+  .badge-us { background: #1a1f2e; color: #60a5fa; }
+
+  .section-label {
+    font-size: 12px; color: var(--muted); font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 16px 4px 10px;
+  }
+
+  .summary-bar {
+    display: flex; gap: 10px; padding: 12px 16px 4px;
+  }
+  .summary-card {
+    flex: 1; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px;
+  }
+  .summary-title { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .summary-val { font-size: 18px; font-weight: 700; }
+
+  .empty { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 14px; }
+
+  @media (min-width: 480px) {
+    .cards { padding: 0 20px 40px; }
+    .stock-card { border-radius: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>📈 주식 트래커</h1>
+      <div class="last-updated" id="last-updated">업데이트 중...</div>
+    </div>
+    <button class="refresh-btn" onclick="loadData()">↻ 새로고침</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="filterTab('all', this)">전체</div>
+  <div class="tab" onclick="filterTab('KR', this)">🇰🇷 한국</div>
+  <div class="tab" onclick="filterTab('US', this)">🇺🇸 미국</div>
+  <div class="tab" onclick="filterTab('up', this)">▲ 상승</div>
+  <div class="tab" onclick="filterTab('down', this)">▼ 하락</div>
+</div>
+
+<div class="summary-bar">
+  <div class="summary-card">
+    <div class="summary-title">상승 종목</div>
+    <div class="summary-val up" id="count-up">–</div>
+  </div>
+  <div class="summary-card">
+    <div class="summary-title">하락 종목</div>
+    <div class="summary-val down" id="count-down">–</div>
+  </div>
+  <div class="summary-card">
+    <div class="summary-title">추적 종목</div>
+    <div class="summary-val" id="count-total">–</div>
+  </div>
+</div>
+
+<div class="cards" id="cards"></div>
+
+<script>
+let allStocks = [];
+let currentFilter = 'all';
+
+function pct(current, prev) {
+  if (!prev || prev === 0) return null;
+  return (current - prev) / prev * 100;
+}
+
+function fmtPct(val) {
+  if (val === null) return { text: 'N/A', cls: 'flat' };
+  const sign = val >= 0 ? '+' : '';
+  const cls = val > 0 ? 'up' : val < 0 ? 'down' : 'flat';
+  return { text: `${sign}${val.toFixed(2)}%`, cls };
+}
+
+function fmtPrice(price, currency) {
+  if (currency === 'KRW') return '₩' + price.toLocaleString('ko-KR', {maximumFractionDigits: 0});
+  return '$' + price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+}
+
+function isKR(ticker) {
+  return ticker.endsWith('.KS') || ticker.endsWith('.KQ');
+}
+
+function renderCards(stocks) {
+  const container = document.getElementById('cards');
+  if (!stocks.length) {
+    container.innerHTML = '<div class="empty">표시할 종목이 없습니다.</div>';
+    return;
+  }
+
+  let krStocks = stocks.filter(s => isKR(s.ticker));
+  let usStocks = stocks.filter(s => !isKR(s.ticker));
+
+  let html = '';
+
+  function renderGroup(group, label, badgeClass, badgeText) {
+    if (!group.length) return;
+    html += `<div class="section-label">${label}</div>`;
+    group.forEach(s => {
+      const d1 = fmtPct(pct(s.current, s.prev_1d));
+      const d7 = fmtPct(pct(s.current, s.prev_1w));
+      const d30 = fmtPct(pct(s.current, s.prev_1m));
+      html += `
+      <div class="stock-card">
+        <div class="card-top">
+          <div>
+            <span class="market-badge ${badgeClass}">${badgeText}</span>
+            <div class="stock-name">${s.name}</div>
+            <div class="stock-ticker">${s.ticker}</div>
+          </div>
+          <div class="stock-price">
+            <div class="price-val">${fmtPrice(s.current, s.currency)}</div>
+            <div class="price-currency">${s.currency}</div>
+          </div>
+        </div>
+        <div class="change-row">
+          <div class="change-pill">
+            <div class="change-label">전일比</div>
+            <div class="change-val ${d1.cls}">${d1.text}</div>
+          </div>
+          <div class="change-pill">
+            <div class="change-label">1주일</div>
+            <div class="change-val ${d7.cls}">${d7.text}</div>
+          </div>
+          <div class="change-pill">
+            <div class="change-label">1개월</div>
+            <div class="change-val ${d30.cls}">${d30.text}</div>
+          </div>
+        </div>
+      </div>`;
+    });
+  }
+
+  if (currentFilter === 'all' || currentFilter === 'KR') renderGroup(krStocks, '🇰🇷 한국', 'badge-kr', 'KRX');
+  if (currentFilter === 'all' || currentFilter === 'US') renderGroup(usStocks, '🇺🇸 미국', 'badge-us', 'NYSE/NASDAQ');
+
+  container.innerHTML = html;
+}
+
+function filterTab(type, el) {
+  currentFilter = type;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+
+  let filtered = allStocks;
+  if (type === 'KR') filtered = allStocks.filter(s => isKR(s.ticker));
+  else if (type === 'US') filtered = allStocks.filter(s => !isKR(s.ticker));
+  else if (type === 'up') filtered = allStocks.filter(s => pct(s.current, s.prev_1d) > 0);
+  else if (type === 'down') filtered = allStocks.filter(s => pct(s.current, s.prev_1d) < 0);
+  renderCards(filtered);
+}
+
+async function loadData() {
+  document.getElementById('last-updated').textContent = '불러오는 중...';
+  try {
+    const res = await fetch('data.json?t=' + Date.now());
+    const raw = await res.json();
+
+    allStocks = Object.entries(raw).map(([ticker, d]) => ({ ticker, ...d }));
+
+    const up = allStocks.filter(s => pct(s.current, s.prev_1d) > 0).length;
+    const down = allStocks.filter(s => pct(s.current, s.prev_1d) < 0).length;
+    document.getElementById('count-up').textContent = up;
+    document.getElementById('count-down').textContent = down;
+    document.getElementById('count-total').textContent = allStocks.length;
+
+    const updatedAt = allStocks[0]?.updated_at;
+    if (updatedAt) {
+      const d = new Date(updatedAt);
+      const kst = new Date(d.getTime() + 9 * 3600 * 1000);
+      document.getElementById('last-updated').textContent =
+        '업데이트: ' + kst.toLocaleString('ko-KR', {month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}) + ' KST';
+    } else {
+      document.getElementById('last-updated').textContent = '데이터 없음';
+    }
+
+    filterTab(currentFilter, document.querySelector('.tab.active'));
+  } catch (e) {
+    document.getElementById('last-updated').textContent = '데이터를 불러올 수 없습니다';
+    document.getElementById('cards').innerHTML =
+      '<div class="empty">data.json을 찾을 수 없습니다.<br>GitHub Actions 설정을 확인해주세요.</div>';
+  }
+}
+
+loadData();
+</script>
+</body>
+</html>
