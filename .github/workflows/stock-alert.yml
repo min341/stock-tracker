@@ -1,0 +1,58 @@
+name: Stock Price Alert
+
+on:
+  schedule:
+    - cron: "0 0 * * 1-5"
+    - cron: "30 6 * * 1-5"
+    - cron: "30 13 * * 1-5"
+    - cron: "0 21 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      session:
+        description: "open or close"
+        required: true
+        default: "open"
+
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install yfinance
+
+      - name: Determine session
+        id: session
+        run: |
+          HOUR=$(date -u +%H)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "value=${{ github.event.inputs.session }}" >> $GITHUB_OUTPUT
+          elif [ "$HOUR" = "00" ] || [ "$HOUR" = "13" ]; then
+            echo "value=open" >> $GITHUB_OUTPUT
+          else
+            echo "value=close" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Fetch prices & send alert
+        env:
+          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+          EMAIL_RECEIVER: ${{ secrets.EMAIL_RECEIVER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          DASHBOARD_URL: ${{ secrets.DASHBOARD_URL }}
+        run: python scripts/fetch_and_alert.py --session ${{ steps.session.outputs.value }}
+
+      - name: Commit updated data.json
+        run: |
+          git config user.name "stock-bot"
+          git config user.email "bot@github.com"
+          git add docs/data.json
+          git diff --staged --quiet || git commit -m "chore: update stock data $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
