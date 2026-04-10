@@ -3,50 +3,50 @@
     "name": "삼성전자",
     "ticker": "005930.KS",
     "currency": "KRW",
-    "current": 71400,
-    "prev_1d": 70800,
-    "prev_1w": 69500,
-    "prev_1m": 73200,
-    "updated_at": "2025-04-08T00:00:00"
+    "current": 207250.0,
+    "prev_1d": 204000.0,
+    "prev_1w": 186200.0,
+    "prev_1m": 187900.0,
+    "updated_at": "2026-04-10T05:21:15.507898"
   },
   "000660.KS": {
     "name": "SK하이닉스",
     "ticker": "000660.KS",
     "currency": "KRW",
-    "current": 198000,
-    "prev_1d": 195000,
-    "prev_1w": 188000,
-    "prev_1m": 210000,
-    "updated_at": "2025-04-08T00:00:00"
+    "current": 1031000.0,
+    "prev_1d": 998000.0,
+    "prev_1w": 876000.0,
+    "prev_1m": 930000.0,
+    "updated_at": "2026-04-10T05:21:15.860324"
   },
   "AAPL": {
     "name": "Apple",
     "ticker": "AAPL",
     "currency": "USD",
-    "current": 172.45,
-    "prev_1d": 170.12,
-    "prev_1w": 168.90,
-    "prev_1m": 165.30,
-    "updated_at": "2025-04-08T00:00:00"
+    "current": 260.489990234375,
+    "prev_1d": 258.8999938964844,
+    "prev_1w": 255.6300048828125,
+    "prev_1m": 260.8299865722656,
+    "updated_at": "2026-04-10T05:21:16.180764"
   },
   "NVDA": {
     "name": "NVIDIA",
     "ticker": "NVDA",
     "currency": "USD",
-    "current": 845.20,
-    "prev_1d": 860.50,
-    "prev_1w": 820.00,
-    "prev_1m": 780.00,
-    "updated_at": "2025-04-08T00:00:00"
+    "current": 183.91000366210938,
+    "prev_1d": 182.0800018310547,
+    "prev_1w": 175.75,
+    "prev_1m": 184.760009765625,
+    "updated_at": "2026-04-10T05:21:16.580828"
   },
   "TSLA": {
     "name": "Tesla",
     "ticker": "TSLA",
     "currency": "USD",
-    "current": 172.10,
-    "prev_1d": 175.80,
-    "prev_1w": 180.20,
-    "prev_1m": 190.50,
-    "updated_at": "2025-04-08T00:00:00"
+    "current": 345.6199951171875,
+    "prev_1d": 343.25,
+    "prev_1w": 381.260009765625,
+    "prev_1m": 399.239990234375,
+    "updated_at": "2026-04-10T05:21:16.977654"
   }
 }
