@@ -18,11 +18,12 @@ import yfinance as yf
 # 한국 주식: 종목코드 + ".KS" (코스피) or ".KQ" (코스닥)
 # 미국 주식: 그냥 티커 심볼
 WATCHLIST = [
+    {"ticker": "259960.KS", "name": "크래프톤"},
     {"ticker": "005930.KS", "name": "삼성전자"},
-    {"ticker": "000660.KS", "name": "SK하이닉스"},
-    {"ticker": "AAPL",      "name": "Apple"},
-    {"ticker": "NVDA",      "name": "NVIDIA"},
-    {"ticker": "TSLA",      "name": "Tesla"},
+    {"ticker": "TSLA",      "name": "테슬라"},
+    {"ticker": "NFLX",      "name": "넷플릭스"},
+    {"ticker": "KO",        "name": "코카콜라"},
+    {"ticker": "SPY",       "name": "S&P 500 ETF"},
 ]
 
 DATA_FILE = Path(__file__).parent.parent / "docs" / "data.json"
