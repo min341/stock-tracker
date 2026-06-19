@@ -3,11 +3,11 @@
     "name": "삼성전자",
     "ticker": "005930.KS",
     "currency": "KRW",
-    "current": 354000.0,
+    "current": NaN,
     "prev_1d": 362500.0,
     "prev_1w": 322500.0,
     "prev_1m": 275500.0,
-    "updated_at": "2026-06-19T11:02:21.529745"
+    "updated_at": "2026-06-19T16:17:30.396334"
   },
   "000660.KS": {
     "name": "SK하이닉스",
@@ -43,50 +43,50 @@
     "name": "테슬라",
     "ticker": "TSLA",
     "currency": "USD",
-    "current": NaN,
+    "current": 400.489990234375,
     "prev_1d": 396.3800048828125,
     "prev_1w": 399.1499938964844,
     "prev_1m": 404.1099853515625,
-    "updated_at": "2026-06-19T11:02:21.804302"
+    "updated_at": "2026-06-19T16:17:30.656019"
   },
   "259960.KS": {
     "name": "크래프톤",
     "ticker": "259960.KS",
     "currency": "KRW",
-    "current": 241500.0,
+    "current": NaN,
     "prev_1d": 238000.0,
     "prev_1w": 237000.0,
     "prev_1m": 276000.0,
-    "updated_at": "2026-06-19T11:02:21.272018"
+    "updated_at": "2026-06-19T16:17:30.040246"
   },
   "NFLX": {
     "name": "넷플릭스",
     "ticker": "NFLX",
     "currency": "USD",
-    "current": NaN,
+    "current": 77.37999725341797,
     "prev_1d": 76.95999908447266,
     "prev_1w": 81.2699966430664,
     "prev_1m": 89.33000183105469,
-    "updated_at": "2026-06-19T11:02:22.025702"
+    "updated_at": "2026-06-19T16:17:30.933435"
   },
   "KO": {
     "name": "코카콜라",
     "ticker": "KO",
     "currency": "USD",
-    "current": NaN,
+    "current": 79.38999938964844,
     "prev_1d": 79.93000030517578,
     "prev_1w": 82.00057983398438,
     "prev_1m": 81.39449310302734,
-    "updated_at": "2026-06-19T11:02:22.445200"
+    "updated_at": "2026-06-19T16:17:31.367155"
   },
   "SPY": {
     "name": "S&P 500 ETF",
     "ticker": "SPY",
     "currency": "USD",
-    "current": NaN,
+    "current": 746.739990234375,
     "prev_1d": 739.0560302734375,
     "prev_1w": 735.8642578125,
     "prev_1m": 731.8446044921875,
-    "updated_at": "2026-06-19T11:02:22.735799"
+    "updated_at": "2026-06-19T16:17:31.755585"
   }
 }
