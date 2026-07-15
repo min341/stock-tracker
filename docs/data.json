@@ -3,11 +3,11 @@
     "name": "삼성전자",
     "ticker": "005930.KS",
     "currency": "KRW",
-    "current": 279500.0,
+    "current": NaN,
     "prev_1d": 263000.0,
     "prev_1w": 277500.0,
     "prev_1m": 343000.0,
-    "updated_at": "2026-07-15T08:41:04.587196"
+    "updated_at": "2026-07-15T15:07:40.900899"
   },
   "000660.KS": {
     "name": "SK하이닉스",
@@ -43,50 +43,50 @@
     "name": "테슬라",
     "ticker": "TSLA",
     "currency": "USD",
-    "current": NaN,
+    "current": 396.82501220703125,
     "prev_1d": 394.760009765625,
     "prev_1w": 402.8999938964844,
     "prev_1m": 399.1499938964844,
-    "updated_at": "2026-07-15T08:41:05.117196"
+    "updated_at": "2026-07-15T15:07:41.283746"
   },
   "259960.KS": {
     "name": "크래프톤",
     "ticker": "259960.KS",
     "currency": "KRW",
-    "current": 230000.0,
+    "current": NaN,
     "prev_1d": 230000.0,
     "prev_1w": 245000.0,
     "prev_1m": 237000.0,
-    "updated_at": "2026-07-15T08:41:04.008667"
+    "updated_at": "2026-07-15T15:07:40.266942"
   },
   "NFLX": {
     "name": "넷플릭스",
     "ticker": "NFLX",
     "currency": "USD",
-    "current": NaN,
+    "current": 74.2750015258789,
     "prev_1d": 73.83000183105469,
     "prev_1w": 76.18000030517578,
     "prev_1m": 81.2699966430664,
-    "updated_at": "2026-07-15T08:41:05.641635"
+    "updated_at": "2026-07-15T15:07:41.593034"
   },
   "KO": {
     "name": "코카콜라",
     "ticker": "KO",
     "currency": "USD",
-    "current": NaN,
+    "current": 82.8499984741211,
     "prev_1d": 84.25,
     "prev_1w": 84.05000305175781,
     "prev_1m": 82.00057983398438,
-    "updated_at": "2026-07-15T08:41:06.346549"
+    "updated_at": "2026-07-15T15:07:42.276385"
   },
   "SPY": {
     "name": "S&P 500 ETF",
     "ticker": "SPY",
     "currency": "USD",
-    "current": NaN,
+    "current": 753.6300048828125,
     "prev_1d": 749.1699829101562,
     "prev_1w": 747.7100219726562,
     "prev_1m": 735.8642578125,
-    "updated_at": "2026-07-15T08:41:07.000039"
+    "updated_at": "2026-07-15T15:07:42.921597"
   }
 }
